@@ -28,6 +28,8 @@ jobs:
           asciidoctor -a outfilesuffix=.html -D docs/ docs/*.adoc
 
       - name: Commit and push generated HTML
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
