@@ -1,0 +1,6 @@
+= Documentations
+
+NOTE: En cours de rédaction.
+
+<<doctech, Documentation Technique>>
+<<docuser, Documentation Utilisateur>>

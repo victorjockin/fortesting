@@ -1,0 +1,36 @@
+name: Build AsciiDoc
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          persist-credentials: true
+
+      - name: Setup Ruby (pour Asciidoctor)
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.1'
+
+      - name: Install Asciidoctor
+        run: gem install asciidoctor
+
+      - name: Convert AsciiDoc to HTML
+        run: |
+          asciidoctor -a outfilesuffix=.html -D docs/ docs/*.adoc
+
+      - name: Commit and push generated HTML
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add docs/*.html
+          git commit -m "chore(docs): regenerate HTML from AsciiDoc [skip ci]" || echo "No changes to commit"
+          git push
